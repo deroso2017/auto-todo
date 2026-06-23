@@ -1,4 +1,4 @@
-# 📝 Auto Todo
+# 📝 Auto Todo and User Data Aggregator
 
 <div align="center">
 
