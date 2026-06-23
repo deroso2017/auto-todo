@@ -8,11 +8,19 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.3.1-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![ESLint](https://img.shields.io/badge/ESLint-9-4B3BE5?style=for-the-badge&logo=eslint&logoColor=white)](https://eslint.org/)
 
-An intelligent todo application built with Next.js and React that helps you organize and manage your tasks effortlessly with an intuitive interface.
+An intelligent todo application with auto-delete functionality. Click an item to move it to a category and watch it auto-return after 5 seconds!
 
 [Live Demo](https://auto-todo-two.vercel.app)
 
 </div>
+
+---
+
+## 🎯 How It Works
+
+**Click item → moves to category → returns after 5s**
+
+This unique Kanban-style board lets you organize items into categories with automatic reset functionality.
 
 ---
 
@@ -25,8 +33,8 @@ An intelligent todo application built with Next.js and React that helps you orga
 │          User Interface (React)                 │
 │                                                 │
 │  ┌──────────────┐  ┌──────────────┐            │
-│  │ Task List    │  │ Task Form    │            │
-│  │ Components   │  │ Components   │            │
+│  │ TodoBoard    │  │ Column       │            │
+│  │ (Kanban)     │  │ (Category)   │            │
 │  └──────────────┘  └──────────────┘            │
 └────────────────┬────────────────────────────────┘
                  │
@@ -35,39 +43,47 @@ An intelligent todo application built with Next.js and React that helps you orga
 │       State Management & Logic                  │
 │                                                 │
 │  ┌──────────────┐  ┌──────────────┐            │
-│  │ Task Hooks   │  │ Utilities    │            │
-│  │ & Context    │  │ & Helpers    │            │
+│  │ Status       │  │ Auto-delete  │            │
+│  │ Management   │  │ Timer (5s)   │            │
 │  └──────────────┘  └──────────────┘            │
-└────────────────┬────────────────────────────────┘
-                 │
-                 ▼
-┌─────────────────────────────────────────────────┐
-│      Local Storage / Data Persistence           │
-│                                                 │
-│  ┌──────────────────────────────────────────┐  │
-│  │  Browser Storage (JSON Data)             │  │
-│  └──────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────┘
 ```
 
-### Component Architecture
+### Component Hierarchy
 
 ```
-Layout (Root)
-    ├── TaskList
-    │   ├── TaskItem
-    │   ├── TaskItem
-    │   └── TaskItem
-    ├── TaskForm
-    │   ├── Input Fields
-    │   ├── Priority Selector
-    │   └── Submit Button
-    ├── TaskFilter
-    │   ├── Category Filter
-    │   ├── Priority Filter
-    │   └── Status Filter
-    └── TaskSearch
-        └── Search Input
+RootLayout
+├── Navbar
+└── Page
+    └── TodoBoard (Client)
+        ├── Column (Main List)
+        │   └── TodoItem[] (Fruit & Vegetable)
+        ├── Column (Fruit)
+        │   └── TodoItem[] (Active Fruits)
+        └── Column (Vegetable)
+            └── TodoItem[] (Active Vegetables)
+```
+
+### Data Flow Diagram
+
+```
+User Click
+    ↓
+TodoItem.onClick()
+    ↓
+moveToCategory(id)
+    ↓
+Update todos state (status: "active")
+    ↓
+Set 5s Timer
+    ↓
+Timer Expires
+    ↓
+returnToMain(id)
+    ↓
+Update todos state (status: "main")
+    ↓
+UI Re-renders
 ```
 
 ---
@@ -78,23 +94,26 @@ Layout (Root)
 auto-todo/
 │
 ├── 📂 app/
-│   ├── layout.tsx                       # Root layout
-│   ├── page.tsx                         # Home page
+│   ├── layout.tsx                       # Root layout with Navbar
+│   ├── page.tsx                         # Main page (TodoBoard)
 │   └── globals.css                      # Global styles
 │
 ├── 📂 components/
-│   ├── TaskItem.tsx                     # Individual task
-│   ├── TaskList.tsx                     # Task container
-│   ├── TaskForm.tsx                     # Add/edit form
-│   ├── TaskFilter.tsx                   # Filter controls
-│   └── TaskSearch.tsx                   # Search component
+│   ├── TodoBoard.tsx                    # Main Kanban board container
+│   ├── Column.tsx                       # Category column component
+│   ├── TodoItem.tsx                     # Individual todo item
+│   ├── UserData.tsx                     # User data aggregator
+│   └── Navbar.tsx                       # Navigation bar
 │
 ├── 📂 types/
-│   ├── task.ts                          # Task interface
-│   └── index.ts                         # Type exports
+│   ├── todo.ts                          # Todo interface
+│   ├── column.ts                        # Column props interface
+│   ├── user.ts                          # User interface
+│   ├── groupedUsers.ts                  # Grouped users interface
+│   └── accumulatorGroup.ts              # Accumulator group interface
 │
 ├── 📂 mock/
-│   └── tasks.ts                         # Sample data
+│   └── todos.ts                         # Mock todo data
 │
 ├── 📂 public/
 │   └── Static assets
@@ -116,6 +135,7 @@ auto-todo/
 |:---------|:-----------|:-------:|
 | **Framework** | ![Next.js](https://img.shields.io/badge/Next.js-16.2.9-000000?logo=next.js) | 16.2.9 |
 | **UI Library** | ![React](https://img.shields.io/badge/React-19.2.4-61DAFB?logo=react) | 19.2.4 |
+| **DOM Rendering** | ![React DOM](https://img.shields.io/badge/React%20DOM-19.2.4-61DAFB?logo=react) | 19.2.4 |
 | **Language** | ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript) | ^5 |
 | **Styling** | ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.3.1-06B6D4?logo=tailwindcss) | 4.3.1 |
 | **Linting** | ![ESLint](https://img.shields.io/badge/ESLint-9-4B3BE5?logo=eslint) | ^9 |
@@ -145,24 +165,56 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ```bash
 # Development
-npm run dev          # Start development server
+npm run dev          # Start development server with hot reload
 npm run build        # Build for production
 npm start            # Start production server
-npm run lint         # Run ESLint
+npm run lint         # Run ESLint code quality checks
 ```
 
 ---
 
 ## ✨ Key Features
 
-- ✅ Create, edit, and delete tasks
-- 📅 Set due dates for tasks
-- 🎯 Priority levels (Low, Medium, High)
-- 🏷️ Task categories and tags
-- 🔍 Search and filter tasks
-- 💾 Local data persistence
-- 📱 Responsive design
-- ⚡ Fast performance with Next.js
+- 🎯 **Kanban Board** - Organize todos into Main, Fruit, and Vegetable categories
+- ⏱️ **Auto-Delete** - Items automatically return to main list after 5 seconds
+- 🏷️ **Type Categorization** - Each item is categorized as Fruit or Vegetable
+- 📊 **Counter Badges** - See item count in each column
+- 🎨 **Beautiful UI** - Modern dark theme with gradient accents
+- ⚡ **Fast Performance** - Built with Next.js and optimized React
+- 📱 **Responsive Design** - Works on desktop, tablet, and mobile
+- 🌙 **Dark Mode** - Easy on the eyes with dark theme by default
+- 👥 **User Data** - Includes user data aggregation component
+
+---
+
+## 🎨 UI Components
+
+### TodoBoard
+Main container that manages the Kanban board state and logic.
+- Handles todo state with React hooks
+- Manages 5-second auto-return timers
+- Filters todos by status and type
+
+### Column
+Reusable column component for each category.
+- Displays category title
+- Shows item count
+- Renders todo items
+
+### TodoItem
+Individual todo item component.
+- Displays item name and type badge
+- Color-coded badges (Emerald for Fruit, Orange for Vegetable)
+- Clickable for category movement
+
+---
+
+## 🎯 Use Cases
+
+- **Task Organization** - Organize items by category
+- **Quick Sorting** - Rapidly categorize items with auto-reset
+- **Data Demonstration** - Shows user data aggregation capabilities
+- **Learning Project** - Perfect for learning Next.js and React patterns
 
 ---
 
