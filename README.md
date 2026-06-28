@@ -18,7 +18,7 @@ An intelligent todo application with auto-delete functionality. Click an item to
 
 ## 🎯 How It Works
 
-**Click item → moves to category → returns after 5s**
+**Click item → moves to category → returns after 5s (default)**
 
 This unique Kanban-style board lets you organize items into categories with automatic reset functionality.
 
@@ -131,15 +131,15 @@ auto-todo/
 
 ## 🛠️ Tech Stack
 
-| Category | Technology | Version |
-|:---------|:-----------|:-------:|
-| **Framework** | ![Next.js](https://img.shields.io/badge/Next.js-16.2.9-000000?logo=next.js) | 16.2.9 |
-| **UI Library** | ![React](https://img.shields.io/badge/React-19.2.4-61DAFB?logo=react) | 19.2.4 |
-| **DOM Rendering** | ![React DOM](https://img.shields.io/badge/React%20DOM-19.2.4-61DAFB?logo=react) | 19.2.4 |
-| **Language** | ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript) | ^5 |
-| **Styling** | ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.3.1-06B6D4?logo=tailwindcss) | 4.3.1 |
-| **Linting** | ![ESLint](https://img.shields.io/badge/ESLint-9-4B3BE5?logo=eslint) | ^9 |
-| **Processing** | ![PostCSS](https://img.shields.io/badge/PostCSS-8.5.15-DD3A0A?logo=postcss) | 8.5.15 |
+| Category          | Technology                                                                                 | Version |
+| :---------------- | :----------------------------------------------------------------------------------------- | :-----: |
+| **Framework**     | ![Next.js](https://img.shields.io/badge/Next.js-16.2.9-000000?logo=next.js)                | 16.2.9  |
+| **UI Library**    | ![React](https://img.shields.io/badge/React-19.2.4-61DAFB?logo=react)                      | 19.2.4  |
+| **DOM Rendering** | ![React DOM](https://img.shields.io/badge/React%20DOM-19.2.4-61DAFB?logo=react)            | 19.2.4  |
+| **Language**      | ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)            |   ^5    |
+| **Styling**       | ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.3.1-06B6D4?logo=tailwindcss) |  4.3.1  |
+| **Linting**       | ![ESLint](https://img.shields.io/badge/ESLint-9-4B3BE5?logo=eslint)                        |   ^9    |
+| **Processing**    | ![PostCSS](https://img.shields.io/badge/PostCSS-8.5.15-DD3A0A?logo=postcss)                | 8.5.15  |
 
 ---
 
@@ -190,19 +190,25 @@ npm run lint         # Run ESLint code quality checks
 ## 🎨 UI Components
 
 ### TodoBoard
+
 Main container that manages the Kanban board state and logic.
+
 - Handles todo state with React hooks
 - Manages 5-second auto-return timers
 - Filters todos by status and type
 
 ### Column
+
 Reusable column component for each category.
+
 - Displays category title
 - Shows item count
 - Renders todo items
 
 ### TodoItem
+
 Individual todo item component.
+
 - Displays item name and type badge
 - Color-coded badges (Emerald for Fruit, Orange for Vegetable)
 - Clickable for category movement
