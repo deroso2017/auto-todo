@@ -1,17 +1,9 @@
-"use client";
+import { fetchUsers } from "@/lib/fetchUsers";
+import { groupByDepartment } from "@/lib/groupByDepartment";
 
-import { useEffect, useState } from "react";
-import type { GroupedUsers } from "@/types/groupedUsers";
-
-export default function UserData() {
-  const [data, setData] = useState<GroupedUsers | null>(null);
-
-  useEffect(() => {
-    fetch("/api/users")
-      .then((res) => res.json())
-      .then((data: GroupedUsers) => setData(data))
-      .catch(console.error);
-  }, []);
+export default async function UserData() {
+  const users = await fetchUsers();
+  const groupedUsers = groupByDepartment(users);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-zinc-950 via-zinc-900 to-black text-white">
@@ -27,7 +19,7 @@ export default function UserData() {
         </div>
 
         {/* Loading */}
-        {!data && (
+        {!groupedUsers && (
           <div className="flex items-center gap-2 text-zinc-400">
             <div className="h-4 w-4 animate-spin rounded-full border-2 border-violet-500 border-t-transparent" />
             Loading data...
@@ -36,8 +28,8 @@ export default function UserData() {
 
         {/* Content */}
         <div className="space-y-6">
-          {data &&
-            Object.entries(data).map(([dept, value]) => (
+          {groupedUsers &&
+            Object.entries(groupedUsers).map(([dept, value]) => (
               <div
                 key={dept}
                 className="group rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl transition hover:border-violet-500/30 hover:bg-white/10"
