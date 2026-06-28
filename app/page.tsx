@@ -14,7 +14,7 @@ export default function Page() {
         </h1>
 
         <p className="mt-2 text-center text-sm text-zinc-400">
-          Click item → moves to category → returns after 5s
+          Click or drag item → moves to category → returns after 5s
         </p>
 
         <div className="mt-10">
