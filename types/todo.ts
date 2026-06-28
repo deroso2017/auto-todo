@@ -8,3 +8,12 @@ export interface Todo {
   type: Category;
   status: Status;
 }
+
+export type Mode = "select" | "drag";
+
+export type TimerState = {
+  timeoutId?: NodeJS.Timeout;
+  startTime?: number;
+  remaining: number;
+  paused: boolean;
+};
