@@ -15,7 +15,7 @@ export function Navbar() {
           href="/"
           className="flex items-center gap-2 text-lg font-semibold tracking-tight text-white"
         >
-          <div className="h-2 w-2 rounded-full bg-violet-500" />
+          <div className="h-2 w-2 rounded-full bg-violet-500 animate-pulse" />
           Auto TODO
         </Link>
 
